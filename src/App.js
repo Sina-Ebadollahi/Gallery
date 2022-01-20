@@ -2,10 +2,14 @@
 import "./App.css";
 // routing
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// Pages
 import Home from "./Pages/Home/Home";
+import Images from "./Pages/Images/Images";
+// Components
 import Navbar from "./Components/Navbar/Navbar";
-import useGlobalContext from "./Hooks/useGlobalContext";
 import MobileNavLink from "./Components/MobileNavLink/MobileNavLink";
+// Context
+import useGlobalContext from "./Hooks/useGlobalContext";
 function App() {
   const { isToggleMenuOpened, setIsToggleMenuOpened } = useGlobalContext();
   return (
@@ -15,6 +19,8 @@ function App() {
         {isToggleMenuOpened && <MobileNavLink />}
         <Routes>
           <Route exact path="/" element={<Home />} />
+          <Route path="/Home" element={<Home />} />
+          <Route path="/images/:category/:id" element={<Images />} />
         </Routes>
       </Router>
     </div>

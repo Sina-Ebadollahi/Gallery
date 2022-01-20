@@ -8,6 +8,7 @@
   min-height: 15vh;
   background-color: rgb(238, 229, 229);
   position: fixed;
+  z-index: 10;
 }
 .main-header nav {
   width: 90%;
