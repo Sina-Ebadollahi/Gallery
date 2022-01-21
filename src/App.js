@@ -10,6 +10,7 @@ import Navbar from "./Components/Navbar/Navbar";
 import MobileNavLink from "./Components/MobileNavLink/MobileNavLink";
 // Context
 import useGlobalContext from "./Hooks/useGlobalContext";
+import Notfound from "./Pages/Notfound/Notfound";
 function App() {
   const { isToggleMenuOpened, setIsToggleMenuOpened } = useGlobalContext();
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route path="/Home" element={<Home />} />
           <Route path="/images/:category/:id" element={<Images />} />
+          <Route path="*" element={<Notfound />} />
         </Routes>
       </Router>
     </div>

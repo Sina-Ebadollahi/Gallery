@@ -51,8 +51,9 @@ function GallerySearch(){
 function PhotoContainer({ data }){
     const [isHovered, setIsHovered] = useState({status: false, id: null});
     const { category } = useGlobalContext();
+
     return(
-        <div className='galleryContainer'>
+        <div  className='galleryContainer'>
             {data ? data.photos.map((p) => {
                 return(
                     <Link to={`/images/${category}/${p.id}`}>
