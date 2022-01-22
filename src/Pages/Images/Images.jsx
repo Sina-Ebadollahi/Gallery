@@ -1,56 +1,55 @@
 import { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import useGlobalContext from '../../Hooks/useGlobalContext';
 import './Images.css'
 
 
 export default function Images(){
+
+    const navigate = useNavigate();
+    const { imageData: rawData } = useGlobalContext();
     const [imageData, setImageData] = useState({data: null, isPending: false})
-    const [url,setUrl] = useState('');
+    const [errorOnLoading,setErrorOnLoading] = useState(false);
+    const [isImageHovered, setIsImageHovered] = useState(false);
+    // const [url,setUrl] = useState('');
     const { id, category } = useParams();
-    const specificUrl = `https://api.pexels.com/v1/search/?id=${id}&query=${category}`;
+    // const specificUrl = `https://api.pexels.com/v1/search/?id=${id}&query=${category}`;
     console.log(id, category);
     useEffect(() => {
+        window.localStorage.setItem(`${category}?${id}`, id);
+        setImageData({...imageData, isPending: true})
         // todo *****************
         if(id && category){
-            // setUrl(`https://api.pexels.com/v1/search/?id=${id}&query=${category}`)
-            const fetchFunc  = async () => {
-                setImageData({data: null, isPending: true});
-                console.log(specificUrl);
-                const fData = await fetch(specificUrl, {headers: {Authorization : "563492ad6f9170000100000196bfcf75b7a24fc088452a8c7ebaab01"}});
-                if(fData.ok){
-                    console.log('inside');
-                    const jsonData = await fData.json();
-                    if(jsonData){
-                        console.log(jsonData);
-                        setImageData({data: jsonData, isPending: false});
-                    }
-                }
-            }
-            fetchFunc();
+            setImageData({data: rawData, isPending: false})  
+            console.log(rawData); 
+        }else if(window.localStorage.getItem(`${category}?${id}`).split('?')[1] === id){
+            setImageData({data: window.localStorage.getItem(`${category}?${id}`), isPending: false})
         }
         return () => {
             setImageData({data: null, isPending: false});
         }
     },[id, category])
-    function imageDataFunc(data){
+    function ImageDataFunc({data}){      
+        console.log(data);  
         
-        const filteredData = data.photos.forEach((each) => {
-            if(each.id === id){
-                console.log(each);
-                return each;
-            }
-        })      
-        console.log(filteredData);  
         return(
             <>
-                <img src={filteredData.src.large} alt={filteredData.alt} />
+                <img onMouseEnter={() => setIsImageHovered(true)} onMouseLeave={() => setIsImageHovered(false)} className='images-image' src={data.src.large} alt={data.alt} />
             </>
         )
     }
     return(
-        <div style={{marginTop: '20vh'}}>
+        <div className='images-container' style={{marginTop: '15vh'}}>
+            {imageData.data && isImageHovered && (
+                <div onMouseEnter={() => setIsImageHovered(true)} onMouseLeave={() => setIsImageHovered(false)} className='images-helpbar'>
+                    <nav>
+                        sss
+                    </nav>
+                </div>
+            )}
             {imageData.isPending && <div>Please wait...</div>}
-            {imageData.data && imageDataFunc(imageData.data)}
+            {imageData.data && <ImageDataFunc data={imageData.data}/>}
+            {errorOnLoading && <div>Sorry there was an error while loading, You will be redirected to homepage</div>}
         </div>
     )
 }

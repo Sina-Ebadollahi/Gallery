@@ -14,6 +14,11 @@ function stateManager(state, action) {
         ...state,
         category: action.payload,
       };
+    case "CURRENT_IMAGE":
+      return {
+        ...state,
+        imageData: action.payload,
+      };
     default:
       return state;
   }
@@ -22,6 +27,7 @@ export default function GlobalContext({ children }) {
   const [globalData, dispatch] = useReducer(stateManager, {
     data: null,
     category: null,
+    imageData: null,
   });
   const [isMobileView, setIsMobileView] = useState(false);
   const [isToggleMenuOpened, setIsToggleMenuOpened] = useState(false);

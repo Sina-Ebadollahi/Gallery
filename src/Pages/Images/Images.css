@@ -1,0 +1,30 @@
+.images-container {
+  position: relative;
+  min-width: 100vw;
+  /* height: 100%; */
+  border: 4px solid black;
+}
+.images-image {
+  min-width: 100vw;
+  object-fit: cover;
+}
+.images-helpbar {
+  width: 50vw;
+  margin-right: auto;
+  margin-left: auto;
+  position: absolute;
+  top: 0;
+  min-height: 10vh;
+  background-color: white;
+  opacity: 0.8;
+  animation: helpbarAnimation 1.2s forwards ease-in;
+}
+
+@keyframes helpbarAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.8;
+  }
+}
